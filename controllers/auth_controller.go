@@ -1,19 +1,28 @@
 package controllers
 
 import (
-	"log"
+	"go-jwt/database"
+	"go-jwt/models"
 
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/crypto/bcrypt"
 )
 
-var l log.Logger
-
 func Register(c *fiber.Ctx) error {
-	l.Println("Handling POST Request")
 	var data map[string]string
 	if err := c.BodyParser(&data); err != nil {
 		return err
-
 	}
-	return c.JSON(data)
+
+	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
+
+	user := models.User{
+		Name:     data["name"],
+		Email:    data["email"],
+		Password: string(password),
+	}
+
+	database.DB.Create(&user)
+
+	return c.JSON(user)
 }

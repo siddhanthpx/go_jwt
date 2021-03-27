@@ -8,10 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func main() {
 	// Connection to PSQL database
 	err := database.ConnectDB()
-	CheckError(err)
+	checkError(err)
 	log.Println("Successfully connected to database.")
 
 	app := fiber.New()

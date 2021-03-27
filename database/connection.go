@@ -11,6 +11,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
 func ConnectDB() error {
 	// Get necessary environment variables needed to connect to Postgres
 	err := godotenv.Load()
@@ -20,9 +22,11 @@ func ConnectDB() error {
 	// Database Connection
 	dbURI := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, user, password, name, port)
 	// Opening Connction to DB
-	db, err := gorm.Open(postgres.Open(dbURI))
+	connection, err := gorm.Open(postgres.Open(dbURI))
 
-	db.Create(&models.User{})
+	DB = connection
+
+	connection.AutoMigrate(&models.User{})
 
 	if err != nil {
 		return err
