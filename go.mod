@@ -3,6 +3,7 @@ module go-jwt
 go 1.16
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gofiber/fiber/v2 v2.6.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jackc/pgx/v4 v4.11.0 // indirect
